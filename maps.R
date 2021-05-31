@@ -6,7 +6,7 @@ library("tmap")
 library("ggpubr")
 library("glue")
 library("gifski")
-
+library("av")
 
 #shape files
 
@@ -58,7 +58,7 @@ dfintchart <- dfintchart %>%
                                                   "400+"))) 
   
 
-#function to draw mps
+#function to draw maps
 
 
 carto <- function(df=scotlandintmap, place, size="TotPop2011") {
@@ -76,7 +76,7 @@ topo<-tm_shape(tomo) +
     tm_facets(along="Date") +
     tm_credits("Source: https://www.opendata.nhs.scot/dataset/covid-19-in-scotland/resource/8906de12-f413-4b3f-95a0-11ed15e61773")
 tmap_animation(topo, filename=glue("{place}.mp4"),
-                 width = 1200, height = 600, loop=FALSE)
+                 width = 1200, height = 600, loop=FALSE, delay=30)
 }
 
 #draw maps
@@ -89,8 +89,7 @@ councils <- inttolaname %>%
 
 
 ##this bit takes some time so don't run unless you have it and are prepared for crashes.
-#Saving items as they are large so easier to 
-##write and read back in when looping 
+
  
 walk(councils$CAName, ~carto(place=.x))
 
